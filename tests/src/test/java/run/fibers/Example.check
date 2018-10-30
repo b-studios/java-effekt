@@ -1,0 +1,12 @@
+Hello from fiber
+In our main thread
+back again
+Again in our main thread
+Fiber is done: true
+Result is: 42
+---
+Hello from main
+Hello from fork
+Hello from main 2
+Hello from fork 2
+Hello from main 3
