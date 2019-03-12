@@ -60,7 +60,12 @@ object EffektPlugin extends AutoPlugin {
         val relative = IO.relativizeFile(input, sourceFile)
           .getOrElse(sys error s"can't find relative paths to ${sourceFile}")
 
-        output / relative.toPath.getParent.toString
+        val path = relative.toPath
+
+        if (path.getParent == null)
+          output
+        else
+          output / path.getParent.toString
       }
     }
   )
