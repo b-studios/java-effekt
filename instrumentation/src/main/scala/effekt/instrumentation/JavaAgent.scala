@@ -80,7 +80,7 @@ abstract class EffektInstrumentor extends ClassFileTransformer {
 
   lazy val reader = JavaClassFileReader()
 
-  def transform(loader: ClassLoader, className: String, cls: Class[_], domain: ProtectionDomain, data: Array[Byte]): Array[Byte] = try {
+  override def transform(loader: ClassLoader, className: String, cls: Class[_], domain: ProtectionDomain, data: Array[Byte]): Array[Byte] = try {
 
     if (className == null)
       return null
