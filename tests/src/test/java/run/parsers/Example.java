@@ -1,6 +1,7 @@
 package run.parsers;
 
 import effekt.*;
+import effekt.stateful.State;
 import scala.Tuple2;
 
 import java.util.HashMap;
@@ -196,39 +197,41 @@ interface Parser<S> {
 
     static <A> Optional<A> parse(String input, Effectful<CharParsers, A> parser) throws Effects {
         StringParser<A> parserImpl = new StringParser<>(input);
-        return parserImpl.handle(() -> parser.apply(parserImpl), 0);
+        return parserImpl.handle(() -> parser.apply(parserImpl));
     }
 }
 
-class StringParser<R> implements CharParsers, StatefulHandler<R, Optional<R>, Integer>  {
+class StringParser<R> extends State implements CharParsers, Handler<R, Optional<R>>  {
 
     // HashMap[(Position, NonterminalName), (Position, Result)]
     final HashMap<Tuple2<Integer, String>, Tuple2<Integer, Object>> cache = new HashMap<>();
 
     final String input;
 
-    int pos;
+    final Field<Integer> pos = field(0);
 
     StringParser(String input) { this.input = input; }
 
     public Optional<R> pure(R r) throws Effects { return Optional.of(r); }
     public Character any() throws Effects {
-        if (pos >= input.length()) {
+        if (pos.get() >= input.length()) {
             return fail("Unexpected EOS");
         } else {
-            Character c = input.charAt(pos);
-            pos = pos + 1;
+            Character c = input.charAt(pos.get());
+            pos.put(pos.get() + 1);
             return c;
         }
     }
     public boolean alternative() throws Effects {
         // does this lead to left biased choice?
-        return useStateful( (k, s) -> {
-            Optional<R> res = k.resume(true, s);
+        return use(k -> {
+            int before = pos.get();
+            Optional<R> res = k.resume(true);
             if (res.isPresent())
                 return res;
 
-            return k.resume(false, s);
+            pos.put(before);
+            return k.resume(false);
         });
     }
 
@@ -237,21 +240,18 @@ class StringParser<R> implements CharParsers, StatefulHandler<R, Optional<R>, In
     public <A> A nonterminal(String name, Prog<A> body) throws Effects {
 
         // We could as well use body.getClass().getCanonicalName() as key.
-        Tuple2<Integer, String> hashKey = new Tuple2<>(pos, name);
+        Tuple2<Integer, String> hashKey = new Tuple2<>(pos.get(), name);
 
         if (cache.containsKey(hashKey)) {
             Tuple2<Integer, Object> res = cache.get(hashKey);
-            pos = res._1;
+            pos.put(res._1);
             return (A) res._2;
         }
 
         A res = body.apply();
-        cache.put(hashKey, new Tuple2<>(pos, res));
+        cache.put(hashKey, new Tuple2<>(pos.get(), res));
         return res;
     }
-
-    public Integer exportState() { return pos; }
-    public void importState(Integer state) { pos = state; }
 }
 
 class ToPush<R> implements Handler<R, PushParser<R>>, Parser<Character>, CharParsers {
