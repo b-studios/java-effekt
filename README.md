@@ -25,7 +25,11 @@ cd java-effekt
 
 # clean all previous builds, if any to avoid sbt conflicts (only necessary once in a while ;) )
 rm -r **/target
-# Start sbt and publish effekt locally
+# Start sbt and publish the effekt instrumentation locally
+sbt publishLocal
+
+# now switch to the effekt core library and publish this locally
+cd core
 sbt publishLocal
 
 # switch to tests subproject and run tests
