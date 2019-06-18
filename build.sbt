@@ -3,12 +3,15 @@ lazy val root = project
   .settings(noPublishSettings)
   .aggregate(instrumentation, sbtplugin)
 
+lazy val effekt = "effekt"
+lazy val effektVersion = "0.1.2-SNAPSHOT"
+
 lazy val opalVersion = "2.0.1"
 
 lazy val effektSettings = Seq(
   scalaVersion := "2.12.4",
   organization := "de.b-studios",
-  version := "0.1.2-SNAPSHOT"
+  version := effektVersion
 )
 
 // the instrumentation component and java agent
@@ -28,8 +31,8 @@ lazy val sbtplugin = project
 
 lazy val instrumentationSettings = Seq(
 
-  moduleName := "effekt-instrumentation",
-  name := "effekt-instrumentation",
+  moduleName := s"${effekt}-instrumentation",
+  name := s"${effekt}-instrumentation",
 
   libraryDependencies ++= Seq(
     "de.opal-project" % "common_2.12" % opalVersion,
@@ -42,8 +45,8 @@ lazy val instrumentationSettings = Seq(
 
 lazy val sbtpluginSettings = Seq(
   sbtPlugin := true,
-  moduleName := "effekt-sbtplugin",
-  name := "effekt-sbtplugin"
+  moduleName := s"${effekt}-sbtplugin",
+  name := s"${effekt}-sbtplugin"
 )
 
 lazy val noPublishSettings = Seq(
