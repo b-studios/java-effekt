@@ -16,7 +16,6 @@ lazy val core = project
   .in(file("core"))
   .settings(effektSettings)
   .settings(coreSettings)
-  .dependsOn(instrumentation)
 
 // the instrumentation component and java agent
 lazy val instrumentation = project
