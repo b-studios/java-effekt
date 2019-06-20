@@ -1,4 +1,4 @@
-import effekt.plugin.EffektPlugin.effektDefaultSettings
+import effekt.plugin.EffektPlugin
 
 lazy val effektName = "effekt"
 lazy val effektVersion = "0.1.2-SNAPSHOT"
@@ -8,8 +8,9 @@ lazy val effektVersion = "0.1.2-SNAPSHOT"
 // since Handler and StatefulHandler both need to be instrumented.
 lazy val root = project
   .in(file("."))
-  .settings(effektDefaultSettings) // AOT settings
   .enablePlugins(effekt.plugin.EffektPlugin)
+  .settings(EffektPlugin.effektDefaultSettings)
+  .settings(EffektPlugin.instrumentAfterCompile)
   .settings(
     moduleName := s"${effektName}-core",
     name := s"${effektName}-core",

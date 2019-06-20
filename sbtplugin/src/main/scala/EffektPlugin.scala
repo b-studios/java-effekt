@@ -67,13 +67,14 @@ object EffektPlugin extends AutoPlugin {
         else
           output / path.getParent.toString
       }
-    },
+    }
+  )
 
+  def instrumentAfterCompile: Seq[Setting[_]] = Seq(
     // standard settings: let effektInstrument depend on compile
     effektInstrument in Compile := (effektInstrument in Compile).dependsOn(compile in Compile).value,
 
     // let run and publish depend on instrument
     products in Compile := (products in Compile).dependsOn(effektInstrument in Compile).value
   )
-
 }
