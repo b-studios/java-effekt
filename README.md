@@ -33,7 +33,9 @@ cd core
 sbt publishLocal
 
 # switch to tests subproject and run tests
-cd tests
+cd ..
+git clone git@github.com:b-studios/java-effekt-tests.git
+cd java-effekt-tests
 sbt
 > test -- -oDF
 ```
