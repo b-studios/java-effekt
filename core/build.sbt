@@ -8,7 +8,7 @@ lazy val effektVersion = "0.1.2-SNAPSHOT"
 // since Handler and StatefulHandler both need to be instrumented.
 lazy val root = project
   .in(file("."))
-  .enablePlugins(effekt.plugin.EffektPlugin)
+  .enablePlugins(EffektPlugin)
   .settings(EffektPlugin.effektDefaultSettings)
   .settings(EffektPlugin.instrumentAfterCompile)
   .settings(

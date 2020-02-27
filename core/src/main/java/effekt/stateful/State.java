@@ -10,13 +10,13 @@ public class State implements Stateful<Map> {
     public Map exportState() { return data; }
     public void importState(Map state) { data = state; }
 
-    protected <T> Field<T> field(T init) {
+    public <T> Field<T> field(T init) {
         Field<T> field = new Field<T>();
         data = data.updated(field, init);
         return field;
     }
 
-    protected class Field<T> {
+    public class Field<T> {
         public T get() {
             return (T) data.apply(this);
         }
