@@ -2,9 +2,9 @@
 An Implementation of effect handlers using bytecode manipulation.
 
 ## Examples
-- The world famous [Drunkflip](tests/src/test/java/run/amb/DrunkFlip.java) example.
+- The world famous [Drunkflip](//github.com/b-studios/java-effekt-tests/src/test/java/run/amb/DrunkFlip.java) example.
 
-An example of some instrumented bytecode can be found [in this gist](https://gist.github.com/b-studios/28b9ed229369b962e0083989343d5ede). The source-file is [Simple.java](tests/src/test/java/run/Simple.java).
+An example of some instrumented bytecode can be found [in this gist](https://gist.github.com/b-studios/28b9ed229369b962e0083989343d5ede). The source-file is [Simple.java](//github.com/b-studios/java-effekt-tests/src/test/java/run/Simple.java).
 
 ## Project Organization
 The project currently consists of the following subprojects:
@@ -12,7 +12,7 @@ The project currently consists of the following subprojects:
 - [core](core) The runtime system of jvm-effekt -- contains necessary runtime classes (like Stack).
 - [instrumentation](instrumentation) The implementation of byte code instrumentation, depends on core.
 - [sbtplugin](sbtplugin) An sbtplugin for offline instrumentation of classfiles.
-- [tests](tests) A [separate](tests/build.sbt) project illustrating the use of Java Effekt.
+- [tests](//github.com/b-studios/java-effekt-tests) A [separate](//github.com/b-studios/java-effekt-tests/build.sbt) project illustrating the use of Java Effekt.
 
 ## Dependencies
 The project currently depends on version `2.0.1` of the static analysis and bytecode generation framework [OPAL](https://bitbucket.org/delors/opal/overview).
